@@ -2,7 +2,7 @@
 
 namespace App\Service\EntityServices;
 
-use App\Constantes\DataImport\Weapon\AttachmentFieldHeader;
+use App\Constantes\DataImport\EntityHeader\AttachmentFieldHeader;
 use App\Entity\Attachment;
 
 class AttachmentService implements EntityServiceInterface

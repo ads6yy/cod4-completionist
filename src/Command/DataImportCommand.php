@@ -53,7 +53,7 @@ class DataImportCommand extends Command
                         $this->xlsxService->handleWikiDataWorksheet($worksheetName, $spreadsheet);
                         break;
                     case EntityTypeName::CHALLENGE:
-                        // @todo.
+                        $this->xlsxService->handleChallengeDataWorksheet($worksheetName, $spreadsheet);
                         break;
                     default:
                         break;

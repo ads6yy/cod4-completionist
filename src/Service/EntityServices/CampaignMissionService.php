@@ -2,7 +2,7 @@
 
 namespace App\Service\EntityServices;
 
-use App\Constantes\DataImport\Weapon\CampaignMissionFieldHeader;
+use App\Constantes\DataImport\EntityHeader\CampaignMissionFieldHeader;
 use App\Entity\CampaignMission;
 use App\Entity\Map;
 use App\Repository\MapRepository;

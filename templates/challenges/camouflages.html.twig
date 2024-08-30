@@ -1,7 +1,63 @@
 {% extends 'base.html.twig' %}
 
+{% block javascripts %}
+    <script type="module" src="{{ asset('js/camouflage.js') }}"></script>
+{% endblock %}
+
 {% block body %}
 
     <h1>{{ title }}</h1>
+
+    <div class="camouflages">
+        {% for weaponCategoryName,weaponCamouflages in camouflages %}
+            <h2>{{ weaponCategoryName }}</h2>
+            <div class="camouflage-weapon-category" id="{{ weaponCategoryName }}">
+                {% for weaponName,camouflages in weaponCamouflages.weapons %}
+                    {% set isGold = weaponName is same as weaponCamouflages.goldWeapon %}
+                    <div class="camouflage-weapon {% if isGold %}gold{% endif %}">
+                        <div class="row">
+                            <div class="col">
+                                <h3 class="weapon-name"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-title="Double-click to complete weapon"
+                                >
+                                    {{ weaponName }}
+                                    <div class="overlay"></div>
+                                </h3>
+                            </div>
+                        </div>
+                        <div class="row camouflages-row">
+                            {% for camouflage in camouflages %}
+                                {% set camouflageNameCamel = camouflage.getName()|u.camel %}
+                                {% set camouflageChallengeId = 'challenge.camouflage.' ~ camouflage.getType().value %}
+
+                                {% set isDefault = camouflage.getType() is same as constant('App\\Constantes\\Challenge\\Camouflage\\CamouflageType::DEFAULT') %}
+                                {% if isDefault %}
+                                    {% set camouflageChallenge = camouflageChallengeId|trans %}
+                                {% else %}
+                                    {% set camouflageChallenge = camouflage.getAmount() ~ ' ' ~ camouflageChallengeId|trans %}
+                                {% endif %}
+
+                                <div class="col">
+                                    <div class="camouflage {{ camouflage.getType().value }}"
+                                         id="{{ camouflage.getName() }}"
+                                         data-bs-toggle="tooltip"
+                                         data-bs-title="{{ camouflage.getName() ~ ' - ' ~ camouflageChallenge|trans }}"
+                                    >
+                                        <img src="{{ asset('img/challenge/camouflage/' ~ camouflageNameCamel ~ '.png') }}"
+                                             alt="{{ camouflage.getName() }}"
+                                        >
+                                        <div class="overlay"></div>
+                                        <i class="bi bi-check"></i>
+                                        <i class="bi bi-x"></i>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
 
 {% endblock %}

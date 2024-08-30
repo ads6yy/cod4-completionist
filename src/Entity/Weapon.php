@@ -6,6 +6,8 @@ use App\Constantes\Weapon\PerkCategory;
 use App\Constantes\Weapon\WeaponCategory;
 use App\Constantes\Weapon\WeaponType;
 use App\Repository\WeaponRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: WeaponRepository::class)]
@@ -27,6 +29,17 @@ class Weapon
 
     #[ORM\Column(enumType: WeaponCategory::class)]
     private ?WeaponCategory $category = null;
+
+    /**
+     * @var Collection<int, Camouflage>
+     */
+    #[ORM\OneToMany(targetEntity: Camouflage::class, mappedBy: 'weapon')]
+    private Collection $camouflages;
+
+    public function __construct()
+    {
+        $this->camouflages = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -77,6 +90,36 @@ class Weapon
     public function setCategory(WeaponCategory $category): static
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Camouflage>
+     */
+    public function getCamouflages(): Collection
+    {
+        return $this->camouflages;
+    }
+
+    public function addCamouflage(Camouflage $camouflage): static
+    {
+        if (!$this->camouflages->contains($camouflage)) {
+            $this->camouflages->add($camouflage);
+            $camouflage->setWeapon($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCamouflage(Camouflage $camouflage): static
+    {
+        if ($this->camouflages->removeElement($camouflage)) {
+            // set the owning side to null (unless already changed)
+            if ($camouflage->getWeapon() === $this) {
+                $camouflage->setWeapon(null);
+            }
+        }
 
         return $this;
     }

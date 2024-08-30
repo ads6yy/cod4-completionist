@@ -1,0 +1,4 @@
+challenge:
+  camouflage:
+    default: 'Unlocked by default'
+    headshot: 'Headshots'

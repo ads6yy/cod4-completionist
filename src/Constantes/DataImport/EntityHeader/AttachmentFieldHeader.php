@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Constantes\DataImport\Weapon;
+namespace App\Constantes\DataImport\EntityHeader;
 
 enum AttachmentFieldHeader: string
 {

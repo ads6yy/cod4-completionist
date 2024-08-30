@@ -2,8 +2,13 @@
 
 namespace App\Service;
 
+use App\Constantes\DataImport\EntityHeader\CamouflageFieldHeader;
 use App\Constantes\DataImport\WorksheetName;
+use App\Entity\Camouflage;
+use App\Entity\Weapon;
+use App\Repository\WeaponRepository;
 use App\Service\EntityServices\AttachmentService;
+use App\Service\EntityServices\CamouflageService;
 use App\Service\EntityServices\CampaignMissionService;
 use App\Service\EntityServices\EntityServiceInterface;
 use App\Service\EntityServices\LethalService;
@@ -32,6 +37,8 @@ class XlsxService
         private readonly StreakService          $streakService,
         private readonly MapService             $mapService,
         private readonly CampaignMissionService $campaignMissionService,
+        private readonly CamouflageService      $camouflageService,
+        private readonly WeaponRepository       $weaponRepository,
     )
     {
     }
@@ -103,6 +110,91 @@ class XlsxService
         ));
     }
 
+    public function handleChallengeDataWorksheet(string $sheetName, Spreadsheet $spreadsheet): void
+    {
+        // Wiki data sheet.
+        $entitiesSheetData = $this->sheetToArrayByName($sheetName, $spreadsheet);
+        $entitiesDatas = $this->formatDataByHeader($entitiesSheetData, NULL);
+
+        $className = str_replace(' ', '', $sheetName);
+        $entityClass = "App\Entity\\$className";
+        $entitiesRepository = $this->em->getRepository($entityClass);
+        $entitiesService = $this->getService($sheetName);
+
+        $addedEntities = 0;
+        $updatedEntities = 0;
+        foreach ($entitiesDatas as $entityName => $entityData) {
+            try {
+                $this->dataImportLogger->info("[DATA IMPORT] - $sheetName entity $entityName - Start.");
+
+                switch ($entityClass) {
+                    case Camouflage::class:
+                        $weapon = $this->weaponRepository->findOneBy([
+                            'name' => $entityData[CamouflageFieldHeader::WEAPON->value],
+                        ]);
+                        if (!$weapon instanceof Weapon) {
+                            throw new \Exception("Weapon {$entityData[CamouflageFieldHeader::WEAPON->value]} unknown.");
+                        }
+                        $searchCriteria = [
+                            'name' => $entityData[CamouflageFieldHeader::NAME->value],
+                            'weapon' => $weapon,
+                        ];
+                        break;
+                    default:
+                        $searchCriteria = [
+                            'name' => $entityData['name'],
+                        ];
+                        break;
+                }
+
+                $existingEntity = $entitiesRepository->findOneBy($searchCriteria);
+
+                if ($existingEntity) {
+                    $this->dataImportLogger->info("[DATA IMPORT] - $sheetName entity $entityName - Update.");
+
+                    $entity = $existingEntity;
+                    $entitiesService->setData($entity, $entityData);
+                    $updatedEntities++;
+                } else {
+                    $this->dataImportLogger->info("[DATA IMPORT] - $sheetName entity $entityName - Add.");
+
+                    $entity = new $entityClass();
+                    $entitiesService->setData($entity, $entityData);
+                    $addedEntities++;
+                }
+
+                // Validation ORM.
+                $errorsList = $this->validator->validate($entity);
+                if ($errorsList->count() > 0) {
+                    /** @var ConstraintViolation $error */
+                    foreach ($errorsList as $error) {
+                        throw new \Exception(sprintf("Validation error - %s.",
+                            sprintf('%s - %s',
+                                $error->getPropertyPath(),
+                                $error->getMessage()
+                            )
+                        ));
+                    }
+                } else {
+                    $this->em->persist($entity);
+
+                    $this->dataImportLogger->info("[DATA IMPORT] - $sheetName entity $entityName - End.");
+                }
+            } catch (\Exception $exception) {
+                $this->dataImportLogger->info(sprintf("[DATA IMPORT] - $sheetName entity $entityName - Error : %s.",
+                    $exception->getMessage(),
+                ));
+            }
+        }
+
+        $this->em->flush();
+
+        $this->dataImportLogger->info(sprintf('[DATA IMPORT] - End of data import - %s entities added, %s entities updated.',
+            $addedEntities,
+            $updatedEntities,
+        ));
+    }
+
     public function sheetToArrayByName(string $sheetName, Spreadsheet $spreadsheet): array
     {
         $sheet = $spreadsheet->getSheetByName($sheetName);
@@ -111,7 +203,7 @@ class XlsxService
         return $sheet->rangeToArray("A1:$highestColumn$highestRow");
     }
 
-    public function formatDataByHeader(array $data): array
+    public function formatDataByHeader(array $data, $primaryHeader = 'name'): array
     {
         $formattedData = [];
 
@@ -120,12 +212,20 @@ class XlsxService
 
         foreach ($data as $values) {
 
-            $name = $this->getValueByHeaderName($dataHeaderTable, $values, 'name');
+            $primaryHeaderValue = $primaryHeader
+                ? $this->getValueByHeaderName($dataHeaderTable, $values, $primaryHeader)
+                : NULL;
 
+            $rowContent = [];
             foreach ($values as $key => $content) {
                 if (isset($dataHeaderTable[$key])) {
-                    $formattedData[$name][$dataHeaderTable[$key]] = $content;
+                    $rowContent[$dataHeaderTable[$key]] = $content;
                 }
+            }
+            if ($primaryHeaderValue) {
+                $formattedData[$primaryHeaderValue] = $rowContent;
+            } else {
+                $formattedData[] = $rowContent;
             }
         }
 
@@ -150,6 +250,7 @@ class XlsxService
             WorksheetName::STREAK => $this->streakService,
             WorksheetName::MAP => $this->mapService,
             WorksheetName::CAMPAIGN_MISSION => $this->campaignMissionService,
+            WorksheetName::CAMOUFLAGE => $this->camouflageService,
             default => throw new \Exception("$name service not found"),
         };
     }

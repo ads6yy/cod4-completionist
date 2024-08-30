@@ -1,0 +1,101 @@
+.camouflages {
+  .overlay {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    background-color: $primary;
+    @extend .rounded-1;
+  }
+
+  .bi-check {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    color: $secondary;
+    font-size: 2rem;
+  }
+
+  .bi-x {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    color: red;
+    font-size: 2rem;
+  }
+}
+
+.camouflage-weapon-category {
+  @extend .row, .mb-5, .gy-4;
+
+  h2 {
+    @extend .mb-3;
+  }
+}
+
+.camouflage-weapon {
+  @extend .col-12, .col-md-3, .d-flex, .flex-column;
+
+  .weapon-name {
+    position: relative;
+    cursor: pointer;
+    @extend .bg-primary, .text-secondary, .rounded-1, .p-5, .text-center;
+
+    &:hover {
+      .overlay {
+        opacity: 0.2;
+      }
+    }
+  }
+
+  &.checked {
+    &.gold {
+      .weapon-name {
+        background-color: $gold !important;
+      }
+    }
+    .weapon-name:not(.gold) {
+      @extend .bg-success;
+    }
+  }
+
+  .camouflages-row {
+    @extend .gx-1;
+
+    .camouflage {
+      position: relative;
+      cursor: pointer;
+
+      &.checked, &:hover, &.default {
+        .overlay {
+          opacity: 0.7;
+        }
+
+        .bi-check {
+          opacity: 1;
+        }
+      }
+
+      &.checked:hover {
+        .bi-check {
+          opacity: 0;
+        }
+
+        .bi-x {
+          opacity: 1;
+        }
+      }
+
+      img {
+        max-width: 100%;
+        @extend .rounded-1;
+      }
+    }
+  }
+}

@@ -29,4 +29,8 @@ return [
     'jquery' => [
         'version' => '3.7.1',
     ],
+    'bootstrap-icons/font/bootstrap-icons.min.css' => [
+        'version' => '1.11.3',
+        'type' => 'css',
+    ],
 ];

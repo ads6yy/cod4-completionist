@@ -2,7 +2,7 @@
 
 namespace App\Service\EntityServices;
 
-use App\Constantes\DataImport\Weapon\MapFieldHeader;
+use App\Constantes\DataImport\EntityHeader\MapFieldHeader;
 use App\Constantes\Map\MapSize;
 use App\Entity\Map;
 

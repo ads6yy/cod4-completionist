@@ -2,7 +2,7 @@
 
 namespace App\Service\EntityServices;
 
-use App\Constantes\DataImport\Weapon\LethalFieldHeader;
+use App\Constantes\DataImport\EntityHeader\LethalFieldHeader;
 use App\Entity\Lethal;
 
 class LethalService implements EntityServiceInterface

@@ -2,7 +2,7 @@
 
 namespace App\Service\EntityServices;
 
-use App\Constantes\DataImport\Weapon\WeaponFieldHeader;
+use App\Constantes\DataImport\EntityHeader\WeaponFieldHeader;
 use App\Constantes\Weapon\WeaponCategory;
 use App\Constantes\Weapon\WeaponType;
 use App\Entity\Weapon;

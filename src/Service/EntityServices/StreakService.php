@@ -2,7 +2,7 @@
 
 namespace App\Service\EntityServices;
 
-use App\Constantes\DataImport\Weapon\StreakFieldHeader;
+use App\Constantes\DataImport\EntityHeader\StreakFieldHeader;
 use App\Entity\Streak;
 
 class StreakService implements EntityServiceInterface

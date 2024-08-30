@@ -2,7 +2,7 @@
 
 namespace App\Service\EntityServices;
 
-use App\Constantes\DataImport\Weapon\TacticalFieldHeader;
+use App\Constantes\DataImport\EntityHeader\TacticalFieldHeader;
 use App\Entity\Tactical;
 
 class TacticalService implements EntityServiceInterface

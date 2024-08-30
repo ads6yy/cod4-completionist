@@ -4,6 +4,9 @@
 
 @import "../../node_modules/bootstrap/scss/bootstrap";
 
+$bootstrap-icons-font-src: url("../../assets/vendor/bootstrap-icons/font/fonts/bootstrap-icons.woff2") format("woff2"), url("../../assets/vendor/bootstrap-icons/font/fonts/bootstrap-icons.woff") format("woff");
+@import "../../node_modules/bootstrap-icons/font/bootstrap-icons.scss";
+
 @import "layout/header";
 @import "layout/main";
 @import "layout/footer";
@@ -16,6 +19,8 @@
 @import "component/streak";
 @import "component/map";
 @import "component/campaign_mission";
+
+@import "component/challenge/camouflage";
 
 html {
 

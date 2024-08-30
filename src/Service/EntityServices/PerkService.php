@@ -2,7 +2,7 @@
 
 namespace App\Service\EntityServices;
 
-use App\Constantes\DataImport\Weapon\PerkFieldHeader;
+use App\Constantes\DataImport\EntityHeader\PerkFieldHeader;
 use App\Constantes\Perk\PerkCategory;
 use App\Entity\Perk;
 
