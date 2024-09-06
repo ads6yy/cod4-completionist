@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Constantes\Weapon\PerkCategory;
 use App\Constantes\Weapon\WeaponCategory;
 use App\Constantes\Weapon\WeaponType;
+use App\Entity\Challenges\CamouflageChallenge;
 use App\Repository\WeaponRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -31,9 +32,9 @@ class Weapon
     private ?WeaponCategory $category = null;
 
     /**
-     * @var Collection<int, Camouflage>
+     * @var Collection<int, CamouflageChallenge>
      */
-    #[ORM\OneToMany(targetEntity: Camouflage::class, mappedBy: 'weapon')]
+    #[ORM\OneToMany(targetEntity: CamouflageChallenge::class, mappedBy: 'weapon')]
     private Collection $camouflages;
 
     public function __construct()
@@ -95,14 +96,14 @@ class Weapon
     }
 
     /**
-     * @return Collection<int, Camouflage>
+     * @return Collection<int, CamouflageChallenge>
      */
     public function getCamouflages(): Collection
     {
         return $this->camouflages;
     }
 
-    public function addCamouflage(Camouflage $camouflage): static
+    public function addCamouflage(CamouflageChallenge $camouflage): static
     {
         if (!$this->camouflages->contains($camouflage)) {
             $this->camouflages->add($camouflage);
@@ -112,7 +113,7 @@ class Weapon
         return $this;
     }
 
-    public function removeCamouflage(Camouflage $camouflage): static
+    public function removeCamouflage(CamouflageChallenge $camouflage): static
     {
         if ($this->camouflages->removeElement($camouflage)) {
             // set the owning side to null (unless already changed)

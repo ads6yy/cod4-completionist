@@ -12,7 +12,8 @@ enum WorksheetName: string
     case STREAK = 'Streak';
     case MAP = 'Map';
     case CAMPAIGN_MISSION = 'Campaign Mission';
-    case CAMOUFLAGE = 'Camouflage';
+    case CAMOUFLAGE_CHALLENGE = 'CamouflageChallenge';
+    case CAMPAIGN_CHALLENGE = 'CampaignChallenge';
 
     public static function getEntityTypeSheet(string $worksheetName): ?EntityTypeName
     {
@@ -26,7 +27,8 @@ enum WorksheetName: string
             case self::MAP:
             case self::CAMPAIGN_MISSION:
                 return EntityTypeName::WIKI;
-            case self::CAMOUFLAGE:
+            case self::CAMOUFLAGE_CHALLENGE:
+            case self::CAMPAIGN_CHALLENGE:
                 return EntityTypeName::CHALLENGE;
             default:
                 return NULL;

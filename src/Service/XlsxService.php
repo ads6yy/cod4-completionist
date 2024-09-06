@@ -2,14 +2,18 @@
 
 namespace App\Service;
 
+use App\Constantes\Challenge\Campaign\CampaignDifficulty;
 use App\Constantes\DataImport\EntityHeader\CamouflageFieldHeader;
+use App\Constantes\DataImport\EntityHeader\CampaignFieldHeader;
 use App\Constantes\DataImport\WorksheetName;
-use App\Entity\Camouflage;
+use App\Entity\Challenges\CamouflageChallenge;
+use App\Entity\Challenges\CampaignChallenge;
 use App\Entity\Weapon;
 use App\Repository\WeaponRepository;
 use App\Service\EntityServices\AttachmentService;
-use App\Service\EntityServices\CamouflageService;
 use App\Service\EntityServices\CampaignMissionService;
+use App\Service\EntityServices\Challenges\CamouflageChallengeService;
+use App\Service\EntityServices\Challenges\CampaignChallengeService;
 use App\Service\EntityServices\EntityServiceInterface;
 use App\Service\EntityServices\LethalService;
 use App\Service\EntityServices\MapService;
@@ -27,18 +31,19 @@ class XlsxService
 {
     public function __construct(
         private readonly EntityManagerInterface $em,
-        private readonly ValidatorInterface     $validator,
-        private readonly LoggerInterface        $dataImportLogger,
-        private readonly WeaponService          $weaponService,
-        private readonly AttachmentService      $attachmentService,
-        private readonly PerkService            $perkService,
-        private readonly LethalService          $lethalService,
-        private readonly TacticalService        $tacticalService,
-        private readonly StreakService          $streakService,
-        private readonly MapService             $mapService,
-        private readonly CampaignMissionService $campaignMissionService,
-        private readonly CamouflageService      $camouflageService,
-        private readonly WeaponRepository       $weaponRepository,
+        private readonly ValidatorInterface         $validator,
+        private readonly LoggerInterface            $dataImportLogger,
+        private readonly WeaponService              $weaponService,
+        private readonly AttachmentService          $attachmentService,
+        private readonly PerkService                $perkService,
+        private readonly LethalService              $lethalService,
+        private readonly TacticalService            $tacticalService,
+        private readonly StreakService              $streakService,
+        private readonly MapService                 $mapService,
+        private readonly CampaignMissionService     $campaignMissionService,
+        private readonly CamouflageChallengeService $camouflageService,
+        private readonly CampaignChallengeService   $campaignService,
+        private readonly WeaponRepository           $weaponRepository,
     )
     {
     }
@@ -117,7 +122,7 @@ class XlsxService
         $entitiesDatas = $this->formatDataByHeader($entitiesSheetData, NULL);
 
         $className = str_replace(' ', '', $sheetName);
-        $entityClass = "App\Entity\\$className";
+        $entityClass = "App\Entity\\Challenges\\$className";
         $entitiesRepository = $this->em->getRepository($entityClass);
         $entitiesService = $this->getService($sheetName);
 
@@ -128,7 +133,7 @@ class XlsxService
                 $this->dataImportLogger->info("[DATA IMPORT] - $sheetName entity $entityName - Start.");
 
                 switch ($entityClass) {
-                    case Camouflage::class:
+                    case CamouflageChallenge::class:
                         $weapon = $this->weaponRepository->findOneBy([
                             'name' => $entityData[CamouflageFieldHeader::WEAPON->value],
                         ]);
@@ -138,6 +143,12 @@ class XlsxService
                         $searchCriteria = [
                             'name' => $entityData[CamouflageFieldHeader::NAME->value],
                             'weapon' => $weapon,
+                        ];
+                        break;
+                    case CampaignChallenge::class:
+                        $searchCriteria = [
+                            'name' => $entityData[CampaignFieldHeader::NAME->value],
+                            'difficulty' => CampaignDifficulty::tryFrom($entityData[CampaignFieldHeader::DIFFICULTY->value],),
                         ];
                         break;
                     default:
@@ -250,7 +261,8 @@ class XlsxService
             WorksheetName::STREAK => $this->streakService,
             WorksheetName::MAP => $this->mapService,
             WorksheetName::CAMPAIGN_MISSION => $this->campaignMissionService,
-            WorksheetName::CAMOUFLAGE => $this->camouflageService,
+            WorksheetName::CAMOUFLAGE_CHALLENGE => $this->camouflageService,
+            WorksheetName::CAMPAIGN_CHALLENGE => $this->campaignService,
             default => throw new \Exception("$name service not found"),
         };
     }

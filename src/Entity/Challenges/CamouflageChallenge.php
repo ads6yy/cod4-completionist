@@ -1,13 +1,15 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Challenges;
 
 use App\Constantes\Challenge\Camouflage\CamouflageType;
-use App\Repository\CamouflageRepository;
+use App\Entity\Challenge;
+use App\Entity\Weapon;
+use App\Repository\Challenges\CamouflageChallengeRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: CamouflageRepository::class)]
-class Camouflage extends Challenge
+#[ORM\Entity(repositoryClass: CamouflageChallengeRepository::class)]
+class CamouflageChallenge extends Challenge
 {
     #[ORM\ManyToOne(inversedBy: 'camouflages')]
     private ?Weapon $weapon = null;

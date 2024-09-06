@@ -54,17 +54,6 @@
     }
   }
 
-  &.checked {
-    &.gold {
-      .weapon-name {
-        background-color: $gold !important;
-      }
-    }
-    .weapon-name:not(.gold) {
-      @extend .bg-success;
-    }
-  }
-
   .camouflages-row {
     @extend .gx-1;
 
@@ -96,6 +85,18 @@
         max-width: 100%;
         @extend .rounded-1;
       }
+    }
+  }
+
+  &.checked {
+    &.gold {
+      .weapon-name {
+        background-color: $gold !important;
+      }
+    }
+
+    .weapon-name:not(.gold) {
+      @extend .bg-success;
     }
   }
 }

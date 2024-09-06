@@ -1,8 +1,3 @@
-import { Tooltip } from 'bootstrap'
-
-const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new Tooltip(tooltipTriggerEl))
-
 $(document).ready(function () {
 	$('.camouflage-weapon .camouflage').on('click', function () {
 		let camouflageWeapon = $(this).parents('.camouflage-weapon')

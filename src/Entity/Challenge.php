@@ -3,11 +3,13 @@
 namespace App\Entity;
 
 use App\Constantes\Challenge\ChallengeGamemode;
+use App\Entity\Challenges\CamouflageChallenge;
+use App\Entity\Challenges\CampaignChallenge;
 use App\Repository\ChallengeRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\InheritanceType('JOINED')]
-#[ORM\DiscriminatorMap(['camouflage' => Camouflage::class])]
+#[ORM\DiscriminatorMap(['camouflage' => CamouflageChallenge::class, 'campaign' => CampaignChallenge::class])]
 #[ORM\Entity(repositoryClass: ChallengeRepository::class)]
 class Challenge
 {

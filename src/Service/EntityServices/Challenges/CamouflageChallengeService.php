@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Service\EntityServices;
+namespace App\Service\EntityServices\Challenges;
 
 use App\Constantes\Challenge\Camouflage\CamouflageType;
 use App\Constantes\Challenge\ChallengeGamemode;
 use App\Constantes\DataImport\EntityHeader\CamouflageFieldHeader;
-
-use App\Entity\Camouflage;
+use App\Entity\Challenges\CamouflageChallenge;
 use App\Entity\Weapon;
 use App\Repository\WeaponRepository;
+use App\Service\EntityServices\EntityServiceInterface;
 
-class CamouflageService implements EntityServiceInterface
+class CamouflageChallengeService implements EntityServiceInterface
 {
     public function __construct(
         private readonly WeaponRepository $weaponRepository,
@@ -20,7 +20,7 @@ class CamouflageService implements EntityServiceInterface
 
     public function setData($entity, array $data): void
     {
-        if ($entity instanceof Camouflage) {
+        if ($entity instanceof CamouflageChallenge) {
             if (isset($data[CamouflageFieldHeader::NAME->value])) {
                 $entity->setName($data[CamouflageFieldHeader::NAME->value]);
             }

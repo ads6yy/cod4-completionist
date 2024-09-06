@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block javascripts %}
+    <script type="module" src="{{ asset('js/campaign_challenges.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+
+    <h1>{{ title }}</h1>
+
+    <div class="campaign-mission-challenges">
+        {% for difficultyName,difficultyMissions in campaignChallenges %}
+            <div class="campaign-mission-challenges-difficulty" id="{{ difficultyName }}">
+                <div class="col-12">
+                    <h2>{{ difficultyName }}</h2>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" role="switch" id="{{ difficultyName|u.camel }}Check">
+                        <label class="form-check-label" for="{{ difficultyName|u.camel }}Check">Complete campaign difficulty</label>
+                    </div>
+                </div>
+                {% for missionName,campaignMission in difficultyMissions %}
+                    {% set campaignMissionNameCamel = campaignMission.getName()|u.camel %}
+                    <div class="campaign-mission-challenge"
+                         id="{{ campaignMission.getName() }}"
+                         data-mission-number="{{ campaignMission.getCampaignMission().getNumber() }}"
+                         data-bs-toggle="tooltip"
+                         data-bs-title="{{ campaignMission.getName() }}"
+                    >
+                        <div class="d-flex flex-column position-relative">
+                            <img src="{{ asset('img/wiki/campaign_mission/' ~ campaignMissionNameCamel ~ '.png') }}"
+                                 alt="{{ campaignMission.getName() }}"
+                            >
+                            <div class="overlay"></div>
+                            <i class="bi bi-check"></i>
+                            <i class="bi bi-x"></i>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}

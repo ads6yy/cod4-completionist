@@ -1,0 +1,77 @@
+.campaign-mission-challenges {
+  .overlay {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    background-color: $primary;
+    @extend .rounded-1;
+  }
+
+  .bi-check {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    color: $secondary;
+    font-size: 2rem;
+  }
+
+  .bi-x {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    color: red;
+    font-size: 2rem;
+  }
+}
+
+.campaign-mission-challenges-difficulty {
+  @extend .row, .mb-5, .gy-3;
+
+  h2 {
+    @extend .mb-0;
+  }
+}
+
+.campaign-mission-challenge {
+  @extend .col-12, .col-md-1, .d-flex, .flex-column;
+
+  img {
+    @extend .rounded-1;
+  }
+
+  position: relative;
+  cursor: pointer;
+
+  &.checked, &:hover, &.default {
+    .overlay {
+      opacity: 0.7;
+    }
+
+    .bi-check {
+      opacity: 1;
+    }
+  }
+
+  &.checked:hover {
+    .bi-check {
+      opacity: 0;
+    }
+
+    .bi-x {
+      opacity: 1;
+    }
+  }
+
+  &:hover {
+    .overlay {
+      opacity: 0.7;
+    }
+  }
+}

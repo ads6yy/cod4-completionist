@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Challenges\CampaignChallenge;
 use App\Repository\CampaignMissionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -33,9 +34,16 @@ class CampaignMission
     #[ORM\ManyToMany(targetEntity: Map::class, inversedBy: 'campaignMissions')]
     private Collection $related_maps;
 
+    /**
+     * @var Collection<int, CampaignChallenge>
+     */
+    #[ORM\OneToMany(targetEntity: CampaignChallenge::class, mappedBy: 'campaign_mission')]
+    private Collection $campaigns;
+
     public function __construct()
     {
         $this->related_maps = new ArrayCollection();
+        $this->campaigns = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -111,6 +119,36 @@ class CampaignMission
     public function removeRelatedMap(Map $relatedMap): static
     {
         $this->related_maps->removeElement($relatedMap);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CampaignChallenge>
+     */
+    public function getCampaigns(): Collection
+    {
+        return $this->campaigns;
+    }
+
+    public function addCampaign(CampaignChallenge $campaign): static
+    {
+        if (!$this->campaigns->contains($campaign)) {
+            $this->campaigns->add($campaign);
+            $campaign->setCampaignMission($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCampaign(CampaignChallenge $campaign): static
+    {
+        if ($this->campaigns->removeElement($campaign)) {
+            // set the owning side to null (unless already changed)
+            if ($campaign->getCampaignMission() === $this) {
+                $campaign->setCampaignMission(null);
+            }
+        }
 
         return $this;
     }

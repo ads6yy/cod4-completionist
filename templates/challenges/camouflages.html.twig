@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block javascripts %}
-    <script type="module" src="{{ asset('js/camouflage.js') }}"></script>
+    <script type="module" src="{{ asset('js/camouflages_challenges.js') }}"></script>
 {% endblock %}
 
 {% block body %}
@@ -9,7 +9,7 @@
     <h1>{{ title }}</h1>
 
     <div class="camouflages">
-        {% for weaponCategoryName,weaponCamouflages in camouflages %}
+        {% for weaponCategoryName,weaponCamouflages in camouflagesChallenges %}
             <h2>{{ weaponCategoryName }}</h2>
             <div class="camouflage-weapon-category" id="{{ weaponCategoryName }}">
                 {% for weaponName,camouflages in weaponCamouflages.weapons %}
