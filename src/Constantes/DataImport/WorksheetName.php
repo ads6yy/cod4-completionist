@@ -14,6 +14,7 @@ enum WorksheetName: string
     case CAMPAIGN_MISSION = 'Campaign Mission';
     case CAMOUFLAGE_CHALLENGE = 'CamouflageChallenge';
     case CAMPAIGN_CHALLENGE = 'CampaignChallenge';
+    case MULTIPLAYER_CHALLENGE = 'MultiplayerChallenge';
 
     public static function getEntityTypeSheet(string $worksheetName): ?EntityTypeName
     {
@@ -29,6 +30,7 @@ enum WorksheetName: string
                 return EntityTypeName::WIKI;
             case self::CAMOUFLAGE_CHALLENGE:
             case self::CAMPAIGN_CHALLENGE:
+            case self::MULTIPLAYER_CHALLENGE:
                 return EntityTypeName::CHALLENGE;
             default:
                 return NULL;

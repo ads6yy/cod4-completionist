@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block javascripts %}
+        <script type="module" src="{{ asset('js/multiplayer_challenges.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+
+    <h1>{{ title }}</h1>
+
+    <div class="multiplayer-challenges">
+        {% for categoryName,multiplayerCategoryChallenges in multiplayerChallenges %}
+            <h2>{{ categoryName }}</h2>
+            <div class="multiplayer-challenges-category" id="{{ categoryName }}">
+                {% for multiplayerChallengeName,multiplayerChallenge in multiplayerCategoryChallenges %}
+                    {% set multiplayerChallengeNameCamel = multiplayerChallengeName|u.camel %}
+                    <div class="multiplayer-challenge {% if multiplayerChallenge.checked %}checked{% endif %}"
+                         id="{{ multiplayerChallenge.entity.getName() }}"
+                         data-bs-toggle="tooltip"
+                         data-bs-title="XP Reward : {{ multiplayerChallenge.entity.getXpReward() }}"
+                         data-id="{{ multiplayerChallenge.entity.getId() }}"
+                    >
+                        <div class="multiplayer-challenge-content">
+                            <div class="multiplayer-challenge-header">
+                                <h3>{{ multiplayerChallenge.entity.getName() }}</h3>
+                                <small>Unlock level : {{ multiplayerChallenge.entity.getUnlockLevel() }}</small>
+                            </div>
+                            <div class="multiplayer-challenge-body">
+                                <span>{{ multiplayerChallenge.entity.getTask() }}</span>
+                            </div>
+                            <div class="overlay"></div>
+                            <i class="bi bi-check"></i>
+                            <i class="bi bi-x"></i>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}

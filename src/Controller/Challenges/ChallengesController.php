@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Repository\ChallengeRepository;
 use App\Repository\Challenges\CamouflageChallengeRepository;
 use App\Repository\Challenges\CampaignChallengeRepository;
+use App\Repository\Challenges\MultiplayerChallengeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,10 +17,11 @@ use Symfony\Component\Routing\Attribute\Route;
 class ChallengesController extends AbstractController
 {
     public function __construct(
-        private readonly CamouflageChallengeRepository $camouflageRepository,
-        private readonly CampaignChallengeRepository   $campaignRepository,
-        private readonly ChallengeRepository           $challengeRepository,
-        private readonly EntityManagerInterface        $entityManager,
+        private readonly CamouflageChallengeRepository  $camouflageRepository,
+        private readonly CampaignChallengeRepository    $campaignRepository,
+        private readonly MultiplayerChallengeRepository $multiplayerRepository,
+        private readonly ChallengeRepository            $challengeRepository,
+        private readonly EntityManagerInterface         $entityManager,
     )
     {
     }
@@ -122,11 +124,22 @@ class ChallengesController extends AbstractController
     #[Route('/challenges/campaign', name: 'challenges_campaign')]
     public function challenges_campaign(): Response
     {
-        $campaignChallenges = $this->campaignRepository->findByDifficultyOrdered();
+        $campaignChallenges = $this->campaignRepository->findByDifficultyOrdered($this->getUser());
 
         return $this->render('challenges/campaign.html.twig', [
             'title' => 'Campaign challenges',
             'campaignChallenges' => $campaignChallenges,
+        ]);
+    }
+
+    #[Route('/challenges/multiplayer', name: 'challenges_multiplayer')]
+    public function challenges_multiplayer(): Response
+    {
+        $multiplayerChallenges = $this->multiplayerRepository->findByCategoryOrdered($this->getUser());
+
+        return $this->render('challenges/multiplayer.html.twig', [
+            'title' => 'Multiplayer challenges',
+            'multiplayerChallenges' => $multiplayerChallenges,
         ]);
     }
 }

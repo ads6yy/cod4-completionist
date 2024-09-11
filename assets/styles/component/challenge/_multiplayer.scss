@@ -1,0 +1,88 @@
+.multiplayer-challenges {
+  .overlay {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    background-color: $primary;
+  }
+  .bi-check {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    color: $secondary;
+    font-size: 2rem;
+  }
+  .bi-x {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    color: red;
+    font-size: 2rem;
+  }
+}
+
+.multiplayer-challenges-category {
+  @extend .row, .mb-5, .gy-4;
+
+  h2 {
+    @extend .mb-3;
+  }
+}
+
+.multiplayer-challenge {
+  @extend .col-12, .col-md-4, .d-flex, .flex-column;
+
+  &.checked, &:hover, &.default {
+    .overlay {
+      opacity: 0.7;
+    }
+
+    .bi-check {
+      opacity: 1;
+    }
+  }
+
+  &.checked:hover {
+    .bi-check {
+      opacity: 0;
+    }
+
+    .bi-x {
+      opacity: 1;
+    }
+  }
+
+  &:hover {
+    .overlay {
+      opacity: 0.7;
+    }
+  }
+
+  .multiplayer-challenge-content {
+    @extend .position-relative, .d-flex, .flex-column, .flex-grow-1;
+    @extend .bg-secondary, .text-primary, .border, .border-2, .border-primary, .rounded-1;
+    @extend .p-2, .text-center;
+
+    min-height: 8rem;
+
+    position: relative;
+    cursor: pointer;
+
+    .multiplayer-challenge-header {
+      h3 {
+        @extend .mb-0;
+      }
+    }
+
+    .multiplayer-challenge-body {
+      @extend .d-flex, .flex-column, .flex-grow-1, .justify-content-center;
+    }
+  }
+}

@@ -9,6 +9,8 @@ $(document).ready(function () {
 		let clickedMissionNumber = $(this).data('missionNumber')
 		let clickedMissionIsChecked = $(this).hasClass('checked')
 
+		let challengesArray = [];
+
 		campaignMissionDifficulties.each(function () {
 			let campaignMissionDifficultyIndex = $(this).index()
 
@@ -17,22 +19,45 @@ $(document).ready(function () {
 					let missionNumber = $(this).data('missionNumber')
 					if (clickedMissionIsChecked && missionNumber >= clickedMissionNumber) {
 						$(this).removeClass('checked')
+						challengesArray.push($(this).data('id'))
 					} else if (!clickedMissionIsChecked && missionNumber <= clickedMissionNumber) {
 						$(this).addClass('checked')
+						challengesArray.push($(this).data('id'))
 					}
 				})
 			} else if (campaignMissionDifficultyIndex < clickedCampaignMissionDifficultyIndex) {
 				if (!clickedMissionIsChecked) {
-					$(this).find('.campaign-mission-challenge').addClass('checked')
+					let campaignMissionChallenge = $(this).find('.campaign-mission-challenge')
+					campaignMissionChallenge.addClass('checked')
+					campaignMissionChallenge.each(function (index, campaignMission) {
+						challengesArray.push($(this).data('id'))
+					})
+
 					$(this).find('input[role="switch"]').prop('checked', true);
 				}
 			} else if (campaignMissionDifficultyIndex > clickedCampaignMissionDifficultyIndex) {
 				if (clickedMissionIsChecked) {
-					$(this).find('.campaign-mission-challenge').removeClass('checked')
+					let campaignMissionChallenge = $(this).find('.campaign-mission-challenge')
+					campaignMissionChallenge.addClass('checked')
+					campaignMissionChallenge.each(function (index, campaignMission) {
+						challengesArray.push($(this).data('id'))
+					})
+
+					campaignMissionChallenge.removeClass('checked')
 					$(this).find('input[role="switch"]').prop('checked', false);
 				}
 			}
 		})
+
+		clickedMissionIsChecked = $(this).hasClass('checked')
+
+		$.ajax({
+			type: "POST",
+			url: '/challenges/' + (clickedMissionIsChecked === true ? 'complete' : 'remove'),
+			data: {
+				"challenges": challengesArray
+			},
+		});
 	})
 
 	$('.campaign-mission-challenges-difficulty input[role="switch"]').on('click', function () {
@@ -44,6 +69,8 @@ $(document).ready(function () {
 		let clickedCampaignMissionDifficultyIndex = campaignMissionDifficulty.index()
 		let switchIsChecked = $(this).prop('checked')
 
+		let challengesArray = [];
+
 		campaignMissionDifficulties.each(function () {
 			let campaignMissionDifficultyIndex = $(this).index()
 			if (campaignMissionDifficultyIndex === clickedCampaignMissionDifficultyIndex) {
@@ -53,18 +80,39 @@ $(document).ready(function () {
 					} else {
 						$(this).addClass('checked')
 					}
+					challengesArray.push($(this).data('id'))
 				})
 			} else if (campaignMissionDifficultyIndex < clickedCampaignMissionDifficultyIndex) {
 				if (switchIsChecked) {
-					$(this).find('.campaign-mission-challenge').addClass('checked')
+					let campaignMissionChallenge = $(this).find('.campaign-mission-challenge')
+					campaignMissionChallenge.addClass('checked')
+					campaignMissionChallenge.each(function (index, campaignMission) {
+						challengesArray.push($(this).data('id'))
+					})
+
+					campaignMissionChallenge.addClass('checked')
 					$(this).find('input[role="switch"]').prop('checked', true);
 				}
 			} else if (campaignMissionDifficultyIndex > clickedCampaignMissionDifficultyIndex) {
 				if (!switchIsChecked) {
-					$(this).find('.campaign-mission-challenge').removeClass('checked')
+					let campaignMissionChallenge = $(this).find('.campaign-mission-challenge')
+					campaignMissionChallenge.addClass('checked')
+					campaignMissionChallenge.each(function (index, campaignMission) {
+						challengesArray.push($(this).data('id'))
+					})
+
+					campaignMissionChallenge.removeClass('checked')
 					$(this).find('input[role="switch"]').prop('checked', false);
 				}
 			}
 		})
+
+		$.ajax({
+			type: "POST",
+			url: '/challenges/' + (switchIsChecked === true ? 'complete' : 'remove'),
+			data: {
+				"challenges": challengesArray
+			},
+		});
 	})
 })

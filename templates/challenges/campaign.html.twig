@@ -14,21 +14,24 @@
                 <div class="col-12">
                     <h2>{{ difficultyName }}</h2>
                     <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch" id="{{ difficultyName|u.camel }}Check">
+                        <input class="form-check-input" type="checkbox" role="switch" id="{{ difficultyName|u.camel }}Check"
+                               {% if difficultyMissions.checked %}checked{% endif %}
+                        >
                         <label class="form-check-label" for="{{ difficultyName|u.camel }}Check">Complete campaign difficulty</label>
                     </div>
                 </div>
-                {% for missionName,campaignMission in difficultyMissions %}
-                    {% set campaignMissionNameCamel = campaignMission.getName()|u.camel %}
-                    <div class="campaign-mission-challenge"
-                         id="{{ campaignMission.getName() }}"
-                         data-mission-number="{{ campaignMission.getCampaignMission().getNumber() }}"
+                {% for missionName,campaignMission in difficultyMissions.campaign_missions %}
+                    {% set campaignMissionNameCamel = campaignMission.entity.getName()|u.camel %}
+                    <div class="campaign-mission-challenge {% if campaignMission.checked %}checked{% endif %}"
+                         id="{{ campaignMission.entity.getName() }}"
+                         data-mission-number="{{ campaignMission.entity.getCampaignMission().getNumber() }}"
                          data-bs-toggle="tooltip"
-                         data-bs-title="{{ campaignMission.getName() }}"
+                         data-bs-title="{{ campaignMission.entity.getName() }}"
+                         data-id="{{ campaignMission.entity.getId() }}"
                     >
                         <div class="d-flex flex-column position-relative">
                             <img src="{{ asset('img/wiki/campaign_mission/' ~ campaignMissionNameCamel ~ '.png') }}"
-                                 alt="{{ campaignMission.getName() }}"
+                                 alt="{{ campaignMission.entity.getName() }}"
                             >
                             <div class="overlay"></div>
                             <i class="bi bi-check"></i>

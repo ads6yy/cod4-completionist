@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Constantes\DataImport\EntityHeader;
+namespace App\Constantes\DataImport\EntityHeader\Challenges;
 
 enum CamouflageFieldHeader: string
 {

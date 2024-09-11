@@ -5,13 +5,14 @@ namespace App\Entity;
 use App\Constantes\Challenge\ChallengeGamemode;
 use App\Entity\Challenges\CamouflageChallenge;
 use App\Entity\Challenges\CampaignChallenge;
+use App\Entity\Challenges\MultiplayerChallenge;
 use App\Repository\ChallengeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\InheritanceType('JOINED')]
-#[ORM\DiscriminatorMap(['camouflage' => CamouflageChallenge::class, 'campaign' => CampaignChallenge::class])]
+#[ORM\DiscriminatorMap(['camouflage' => CamouflageChallenge::class, 'campaign' => CampaignChallenge::class, 'multiplayer' => MultiplayerChallenge::class])]
 #[ORM\Entity(repositoryClass: ChallengeRepository::class)]
 class Challenge
 {

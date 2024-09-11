@@ -65,6 +65,12 @@
                         Campaign
                     </a>
                 </li>
+                <li>
+                    <a class="dropdown-item {% if route is same as 'challenges_multiplayer' %}active{% endif %}"
+                       href="{{ url('challenges_multiplayer') }}">
+                        Multiplayer
+                    </a>
+                </li>
             </ul>
         </li>
         {% if app.user %}

@@ -3,8 +3,8 @@
 namespace App\Service;
 
 use App\Constantes\Challenge\Campaign\CampaignDifficulty;
-use App\Constantes\DataImport\EntityHeader\CamouflageFieldHeader;
-use App\Constantes\DataImport\EntityHeader\CampaignFieldHeader;
+use App\Constantes\DataImport\EntityHeader\Challenges\CamouflageFieldHeader;
+use App\Constantes\DataImport\EntityHeader\Challenges\CampaignFieldHeader;
 use App\Constantes\DataImport\WorksheetName;
 use App\Entity\Challenges\CamouflageChallenge;
 use App\Entity\Challenges\CampaignChallenge;
@@ -14,6 +14,7 @@ use App\Service\EntityServices\AttachmentService;
 use App\Service\EntityServices\CampaignMissionService;
 use App\Service\EntityServices\Challenges\CamouflageChallengeService;
 use App\Service\EntityServices\Challenges\CampaignChallengeService;
+use App\Service\EntityServices\Challenges\MultiplayerChallengeService;
 use App\Service\EntityServices\EntityServiceInterface;
 use App\Service\EntityServices\LethalService;
 use App\Service\EntityServices\MapService;
@@ -30,20 +31,21 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class XlsxService
 {
     public function __construct(
-        private readonly EntityManagerInterface $em,
-        private readonly ValidatorInterface         $validator,
-        private readonly LoggerInterface            $dataImportLogger,
-        private readonly WeaponService              $weaponService,
-        private readonly AttachmentService          $attachmentService,
-        private readonly PerkService                $perkService,
-        private readonly LethalService              $lethalService,
-        private readonly TacticalService            $tacticalService,
-        private readonly StreakService              $streakService,
-        private readonly MapService                 $mapService,
-        private readonly CampaignMissionService     $campaignMissionService,
-        private readonly CamouflageChallengeService $camouflageService,
-        private readonly CampaignChallengeService   $campaignService,
-        private readonly WeaponRepository           $weaponRepository,
+        private readonly EntityManagerInterface      $em,
+        private readonly ValidatorInterface          $validator,
+        private readonly LoggerInterface             $dataImportLogger,
+        private readonly WeaponService               $weaponService,
+        private readonly AttachmentService           $attachmentService,
+        private readonly PerkService                 $perkService,
+        private readonly LethalService               $lethalService,
+        private readonly TacticalService             $tacticalService,
+        private readonly StreakService               $streakService,
+        private readonly MapService                  $mapService,
+        private readonly CampaignMissionService      $campaignMissionService,
+        private readonly CamouflageChallengeService  $camouflageService,
+        private readonly CampaignChallengeService    $campaignService,
+        private readonly MultiplayerChallengeService $multiplayerChallengeService,
+        private readonly WeaponRepository            $weaponRepository,
     )
     {
     }
@@ -263,6 +265,7 @@ class XlsxService
             WorksheetName::CAMPAIGN_MISSION => $this->campaignMissionService,
             WorksheetName::CAMOUFLAGE_CHALLENGE => $this->camouflageService,
             WorksheetName::CAMPAIGN_CHALLENGE => $this->campaignService,
+            WorksheetName::MULTIPLAYER_CHALLENGE => $this->multiplayerChallengeService,
             default => throw new \Exception("$name service not found"),
         };
     }

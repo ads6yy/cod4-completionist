@@ -4,7 +4,7 @@ namespace App\Service\EntityServices\Challenges;
 
 use App\Constantes\Challenge\Campaign\CampaignDifficulty;
 use App\Constantes\Challenge\ChallengeGamemode;
-use App\Constantes\DataImport\EntityHeader\CampaignFieldHeader;
+use App\Constantes\DataImport\EntityHeader\Challenges\CampaignFieldHeader;
 use App\Entity\CampaignMission;
 use App\Entity\Challenges\CampaignChallenge;
 use App\Repository\CampaignMissionRepository;

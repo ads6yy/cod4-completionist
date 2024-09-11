@@ -4,7 +4,7 @@ namespace App\Service\EntityServices\Challenges;
 
 use App\Constantes\Challenge\Camouflage\CamouflageType;
 use App\Constantes\Challenge\ChallengeGamemode;
-use App\Constantes\DataImport\EntityHeader\CamouflageFieldHeader;
+use App\Constantes\DataImport\EntityHeader\Challenges\CamouflageFieldHeader;
 use App\Entity\Challenges\CamouflageChallenge;
 use App\Entity\Weapon;
 use App\Repository\WeaponRepository;
