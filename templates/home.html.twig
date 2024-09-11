@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <h1>{{ title }}</h1>
+
+    <p>
+        Cod4 completionist is a website for Call of Duty lovers, focusing on the Call of Duty 4: Modern Warfare (2007) opus.
+        On this website, you’ll find every data on Call of Duty 4: Modern Warfare (2007) like weapons, maps, attachments, …
+    </p>
+
+    <br>
+
+    <p>
+        You’ll be able to <a href="{{ url('app_register') }}">register</a> and <a href="{{ url('app_login') }}">login</a>
+        to track every challenges related to this game. There are challenges categories of this game :
+    </p>
+    <ul>
+        <li>
+            <a href="{{ url('challenges_camouflages') }}">Camouflages</a>
+        </li>
+        <li>
+            <a href="{{ url('challenges_campaign') }}">Campaign completion</a>
+        </li>
+    </ul>
+
+    <div class="mt-auto">
+        <img class="rounded-1" src="{{ asset('img/cod4-wallpaper.png') }}" alt="cod4 wallpaper">
+    </div>
+
+{% endblock %}

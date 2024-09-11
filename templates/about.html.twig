@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <h1>{{ title }}</h1>
+
+    <p>
+        The idea of this cod completionist websites idea came with the greats camo trackers made by <a href="https://github.com/carlssonemil/">Emil Carlsson</a> for newer cods.
+        I wanted to build one too with a backend side and the ability to track challenges per account.
+    </p>
+
+    <br>
+
+    <p>
+        I started with cod4 because game database is pretty simple compare to newer ones, and it’s the first one with camos challenges.
+        I want to build a easy one and then try to decline this concept for more complex cod games.
+        Idea is also to switch frontend and backend frameworks on the others games, so I can train myself and try new ways of coding.
+    </p>
+
+    <br>
+
+    <p>
+        Every cod completionist websites :
+    </p>
+    <ul>
+        <li>
+            <a href="{{ url('home') }}">Cod 4 Completionist</a>
+        </li>
+        <li>
+            ... <small>(in-progress)</small>
+        </li>
+    </ul>
+
+    <br>
+
+    <p>
+        This website have been built with <a href="https://symfony.com/releases/7.1">Symfony 7.1</a> for backend and
+        Twig templates with <a href="https://getbootstrap.com/docs/5.3/getting-started/introduction/">Bootstrap 5.3</a> for frontend.
+    </p>
+
+    <br>
+
+    <p>
+        Code of this website is available on <a href="https://gitlab.com/Adsy/cod4-completionist">Gitlab</a>.
+    </p>
+
+{% endblock %}
