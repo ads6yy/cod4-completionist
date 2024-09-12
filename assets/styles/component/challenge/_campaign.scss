@@ -32,7 +32,7 @@
 }
 
 .campaign-mission-challenges-difficulty {
-  @extend .row, .mb-5, .gy-3;
+  @extend .row, .mb-5, .g-2, .g-lg-3;
 
   h2 {
     @extend .mb-0;
@@ -40,7 +40,7 @@
 }
 
 .campaign-mission-challenge {
-  @extend .col-12, .col-md-1, .d-flex, .flex-column;
+  @extend .col-4, .col-sm-3, .col-md-2, .col-lg-1, .d-flex, .flex-column;
 
   img {
     @extend .rounded-1;
