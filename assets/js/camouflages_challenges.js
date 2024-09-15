@@ -1,6 +1,8 @@
 $(document).ready(function () {
 	$('.camouflage-weapon .camouflage:not(.default)').on('click', function () {
 		if ($('body').hasClass('user-logged')) {
+			let camouflageWeaponCategory = $(this).parents('.camouflage-weapon-category')
+			let camouflageWeapons = camouflageWeaponCategory.find('.camouflage-weapon')
 			let camouflageWeapon = $(this).parents('.camouflage-weapon')
 			let camouflages = camouflageWeapon.find('.camouflage:not(.default)')
 
@@ -32,6 +34,16 @@ $(document).ready(function () {
 				camouflageWeapon.removeClass('checked')
 			}
 
+			if (camouflageWeapons.length === camouflageWeaponCategory.find('.camouflage-weapon.checked').length) {
+				camouflageWeaponCategory.addClass('checked')
+				challengesArray.push(camouflageWeaponCategory.data('id'))
+			} else {
+				camouflageWeaponCategory.removeClass('checked')
+				if (!camouflageWeapon.hasClass('checked')) {
+					challengesArray.push(camouflageWeaponCategory.data('id'))
+				}
+			}
+
 			$.ajax({
 				type: 'POST',
 				url: '/challenges/' + (clickedCamouflageIsChecked === true ? 'complete' : 'remove'),
@@ -46,6 +58,8 @@ $(document).ready(function () {
 
 	$('.camouflage-weapon .weapon-name').on('dblclick', function () {
 		if ($('body').hasClass('user-logged')) {
+			let camouflageWeaponCategory = $(this).parents('.camouflage-weapon-category')
+			let camouflageWeapons = camouflageWeaponCategory.find('.camouflage-weapon')
 			let camouflageWeapon = $(this).parents('.camouflage-weapon')
 			let camouflages = camouflageWeapon.find('.camouflage:not(.default)')
 			camouflageWeapon.toggleClass('checked')
@@ -59,6 +73,16 @@ $(document).ready(function () {
 			camouflages.each(function (index, camouflage) {
 				challengesArray.push($(this).data('id'))
 			})
+
+			if (camouflageWeapons.length === camouflageWeaponCategory.find('.camouflage-weapon.checked').length) {
+				camouflageWeaponCategory.addClass('checked')
+				challengesArray.push(camouflageWeaponCategory.data('id'))
+			} else {
+				camouflageWeaponCategory.removeClass('checked')
+				if (!camouflageWeapon.hasClass('checked')) {
+					challengesArray.push(camouflageWeaponCategory.data('id'))
+				}
+			}
 
 			let checked = camouflageWeapon.hasClass('checked');
 			$.ajax({

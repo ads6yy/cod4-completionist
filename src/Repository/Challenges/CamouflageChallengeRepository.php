@@ -34,7 +34,10 @@ class CamouflageChallengeRepository extends ServiceEntityRepository
 
             if ($camouflage->getType() === CamouflageType::FULL_WEAPON_CATEGORY) {
                 $camouflages[$camouflageWeaponCategory]['goldWeapon'] = $camouflageWeaponName;
-                $camouflages[$camouflageWeaponCategory]['weapons'][$camouflageWeaponName]['id'] = $camouflage->getId();
+                $camouflages[$camouflageWeaponCategory]['goldWeaponChallengeId'] = $camouflage->getId();
+                $camouflages[$camouflageWeaponCategory]['checked'] = $userCompletedChallenges->exists(function ($key, Challenge $challenge) use ($camouflage) {
+                    return $camouflage->getId() === $challenge->getId();
+                });;
             } else {
                 $checkedCamouflage = !($camouflage->getType() !== CamouflageType::DEFAULT) || $userCompletedChallenges->exists(function ($key, Challenge $challenge) use ($camouflage) {
                         return $camouflage->getId() === $challenge->getId();
