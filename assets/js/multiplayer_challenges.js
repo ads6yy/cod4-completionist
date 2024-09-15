@@ -1,18 +1,22 @@
 $(document).ready(function () {
 	$('.multiplayer-challenge').on('click', function () {
-		$(this).toggleClass('checked')
+		if ($('body').hasClass('user-logged')) {
+			$(this).toggleClass('checked')
 
-		let challengesArray = [];
-		challengesArray.push($(this).data('id'))
+			let challengesArray = [];
+			challengesArray.push($(this).data('id'))
 
-		let clickedIsChecked = $(this).hasClass('checked');
+			let clickedIsChecked = $(this).hasClass('checked');
 
-		$.ajax({
-			type: "POST",
-			url: '/challenges/' + (clickedIsChecked === true ? 'complete' : 'remove'),
-			data: {
-				"challenges": challengesArray
-			},
-		});
+			$.ajax({
+				type: 'POST',
+				url: '/challenges/' + (clickedIsChecked === true ? 'complete' : 'remove'),
+				data: {
+					'challenges': challengesArray
+				}
+			});
+		} else {
+			$('[data-bs-target="#loginModal"]').click()
+		}
 	})
 })

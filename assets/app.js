@@ -7,7 +7,11 @@
 import $ from 'jquery';
 window.$ = window.jQuery = $;
 
-import { Tooltip } from 'bootstrap'
+import { Tooltip, Modal } from 'bootstrap'
 
 const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
 const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new Tooltip(tooltipTriggerEl))
+
+let modals = $('.modal').each(function () {
+	let modal = new Modal($(this))
+})

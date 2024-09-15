@@ -13,10 +13,32 @@
 
         {% endblock %}
     </head>
-    <body class="container">
+    <body class="container{% if app.user %} user-logged{% endif %}">
         {% include 'header.html.twig' %}
         <main>
             {% block body %}{% endblock %}
+
+            <!-- Login modal -->
+            <button type="button" class="d-none btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">
+                loginModal
+            </button>
+            <div class="modal" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="loginModalLabel">Register and login</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            You need to <a href="{{ url('app_register') }}">register</a> and <a href="{{ url('app_login') }}">login</a> to track your challenge progression.
+                        </div>
+                        <div class="modal-footer">
+                            <a href="{{ url('app_register') }}" class="btn btn-secondary">Register</a>
+                            <a href="{{ url('app_login') }}" class="btn btn-primary">Login</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </main>
         {% include 'footer.html.twig' %}
     </body>
