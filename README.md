@@ -9,7 +9,7 @@ A web application dedicated to **Call of Duty 4: Modern Warfare (2007)**. This p
 ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
 ![Bootstrap](https://img.shields.io/badge/bootstrap-%238511FA.svg?style=for-the-badge&logo=bootstrap&logoColor=white)
 
-## 📖 About The Project
+## 📖 About
 
 As a fan of the Call of Duty license, I wanted to build a tool to track progress for the classic COD4: Modern Warfare. Inspired by the visual tracking concepts of [Emil Carlsson](https://github.com/carlssonemil/), this project adds a robust backend to handle user persistence and data management.
 
