@@ -13,7 +13,7 @@ A web application dedicated to **Call of Duty 4: Modern Warfare (2007)**. This p
 
 As a fan of the Call of Duty license, I wanted to build a tool to track progress for the classic COD4: Modern Warfare. Inspired by the visual tracking concepts of [Emil Carlsson](https://github.com/carlssonemil/), this project adds a robust backend to handle user persistence and data management.
 
-This project was also built as a technical playground to experiment with **Symfony 7.1**, **AssetMapper** (replacing Webpack/Encore), and complex data management via Excel imports.
+This project was also built as a technical playground to experiment with **Symfony 7.1**, **AssetMapper**, and data management via Excel imports.
 
 ### Key Features
 * **Wiki Database:** Detailed data on weapons, maps, and accessories.
